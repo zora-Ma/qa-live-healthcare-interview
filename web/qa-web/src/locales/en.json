@@ -1,4 +1,11 @@
 {
+  "nav": {
+    "home": "Home",
+    "consultation": "Consultation",
+    "doctors": "Doctors",
+    "about": "About",
+    "doctorLogin": "Doctor Login"
+  },
   "home": {
     "lang": {
       "label": "Language",

@@ -162,10 +162,10 @@ const onLocaleMenuClick = (info: { key: string }) => {
 }
 
 .lang-switcher {
-  position: absolute;
+  position: fixed;
   right: 24px;
-  top: 16px;
-  z-index: 2;
+  top: 80px;
+  z-index: 1001;
 }
 
 .hero {

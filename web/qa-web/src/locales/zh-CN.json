@@ -1,4 +1,11 @@
 {
+  "nav": {
+    "home": "首页",
+    "consultation": "问诊",
+    "doctors": "医生",
+    "about": "关于",
+    "doctorLogin": "医生登录"
+  },
   "home": {
     "lang": {
       "label": "语言",

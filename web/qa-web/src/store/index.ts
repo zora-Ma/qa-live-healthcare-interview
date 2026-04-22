@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import patientData from '../data/patient-user.json';
+// import patientData from '../data/patient-user.json'; // Data migrated to MySQL
 import questionData from '../data/question-list.json';
 
 export interface Doctor {
@@ -45,7 +45,7 @@ interface State {
 
 const state = reactive<State>({
   doctors: [] as Doctor[],
-  patients: patientData as Patient[],
+  patients: [] as Patient[], // Data is now fetched from API
   questions: questionData as Question[],
   currentDoctor: null,
   currentPatient: null,
@@ -63,6 +63,7 @@ async function apiPost<T>(path: string, body: unknown): Promise<T> {
   const res = await fetch(path, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify(body),
   });
   if (!res.ok) {
@@ -132,6 +133,34 @@ export const store = {
 
   logoutPatient() {
     state.currentPatient = null;
+  },
+
+  async verifyPatientByNameAndBirthday(name: string, birthday: string): Promise<Patient | null> {
+    try {
+      const patient = await apiPost<Patient>('/api/patients/verify', { name, birthday });
+      state.currentPatient = patient;
+      return patient;
+    } catch {
+      return null;
+    }
+  },
+
+  async loginPatient(username: string, password: string): Promise<Patient | null> {
+    try {
+      const patient = await apiPost<Patient>('/api/patients/login', { username, password });
+      state.currentPatient = patient;
+      return patient;
+    } catch {
+      return null;
+    }
+  },
+
+  async registerPatient(name: string, phone: string, gender?: string): Promise<any> {
+    try {
+      return await apiPost('/api/patients/register', { name, phone, gender });
+    } catch (error) {
+      throw error;
+    }
   },
 
   getQuestionsByDoctor(doctorId: string): Question[] {
