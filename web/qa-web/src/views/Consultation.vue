@@ -212,11 +212,12 @@ const availableDoctors = computed(() => {
 onMounted(() => {
   const doctorUsername = route.params.doctorUsername as string;
   if (doctorUsername) {
-    const doctor = store.getDoctorByUsername(doctorUsername);
-    if (doctor && doctor.isActive) {
-      selectedDoctor.value = doctor;
-      questionForm.doctorId = doctor.id;
-    }
+    store.getDoctorByUsername(doctorUsername).then((doctor) => {
+      if (doctor && doctor.isActive) {
+        selectedDoctor.value = doctor;
+        questionForm.doctorId = doctor.id;
+      }
+    });
   }
 });
 
